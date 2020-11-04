@@ -14,7 +14,7 @@ type ConfirmPayT={
 }
 
 export const ConfirmPayModal:FC<ConfirmPayT>=({data,active,closeWindow,onConfirm,onCancel})=>{
-    return <Modal active={active} setActive={closeWindow} clickOverflowClose={false}>
+    return <Modal active={active} closeWindow={closeWindow} clickOverflowClose={false}>
         <div className={modalStyle.modalParagraph}>
             <div className={modalStyle.modalHeader}>Подтверждение платежа</div>
             <div className={modalStyle.modalItemName}> Наименование </div>

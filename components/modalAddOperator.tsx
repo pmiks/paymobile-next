@@ -43,7 +43,7 @@ export const AddOperatorModal:FC<AddOperatorT>=({active,closeWindow,onConfirm})=
                      <button className={'cancel'} onClick={()=>{closeWindow()}}>Назад</button></div>
              </form>
         </div>
-        <Modal active={colorPikerActive} closeWindow={()=>setColorPikerActive(false)}><ChromePicker
+        <Modal active={colorPikerActive} closeWindow={()=>setColorPikerActive(false)} clickOverflowClose={false}><ChromePicker
             color={color}
             onChange={updatedColor => setColor(updatedColor.hex)}
         />

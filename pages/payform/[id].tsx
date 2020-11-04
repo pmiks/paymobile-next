@@ -9,6 +9,7 @@ import {ConfirmPayModal} from "../../components/modalConfirmPay";
 import {ServerRequestModal} from "../../components/modalServerRequest";
 import {ServerRequestModalDone} from "../../components/modalServerRequestDone";
 import {payDataInterface} from "../../components/interfaces";
+import {number} from "prop-types";
 
 
 
@@ -50,7 +51,7 @@ export default function PayForm (){
     const [paymentDone,setPaymentDone]=useState(false)
 
     let [payData,setPayData]=useState<payDataInterface>({
-        mobileOperator:mobileOperatorList[router.query.id].name,
+        mobileOperator:mobileOperatorList[Number(router.query.id)].name,
         phoneNumber:'',
         amountPay:0,
         commission:0,
