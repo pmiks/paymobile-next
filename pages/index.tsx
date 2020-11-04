@@ -12,8 +12,7 @@ export default function index(){
         router.push(`/payform/${id}`)
         console.log(id)
     }
-    return <AppForm><div className={s.mobileListHeader}>Выберите оператора:</div>
+    return <><div className={s.mobileListHeader}>Выберите оператора:</div>
         {mobileOperatorList.map(item=><MobileOperator item={item} onClick={selectMobileOperator}/>)}
-
-    </AppForm>
+    </>
 }
