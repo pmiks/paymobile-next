@@ -1,0 +1,32 @@
+.modalParagraph{
+    display: grid;
+    justify-content: stretch;
+    padding: 20px;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+}
+
+.modalHeader{
+    display: grid;
+    justify-content: center;
+    font-size: 2em;
+    margin-bottom: 1em;
+    font-weight: bold;
+}
+
+.modalItemName{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.modalItem{
+    font-size: 1.3em;
+    border: gray 1px dotted;
+    border-left-width: 0;
+    border-right-width: 0;
+    margin: 5px 1px;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}

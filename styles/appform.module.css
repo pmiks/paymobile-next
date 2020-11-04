@@ -7,9 +7,9 @@
 .Header{
     margin-top: 3vh;
     margin-bottom: 3vh;
-    display: flex;
+    display: grid;
     padding: 1em;
-    font-size: 3vmax;
+    font-size: 3em;
     justify-self: center;
 }
 

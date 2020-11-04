@@ -2,6 +2,7 @@
     display: grid;
     margin: 2vh 5vw;
     border: 1px white solid;
+    grid-template-columns: 1fr 1fr 1fr;
     border-radius: 15px;
     font-size: 2em;
     align-self: stretch;

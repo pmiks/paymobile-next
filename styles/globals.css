@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-size: 20px;
+  font-size: 12px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -14,4 +14,87 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+div{
+  white-space: nowrap;
+}
+button{
+  margin: 1rem;
+  background-color:red;
+  font-size: 2rem;
+  border-radius: 5px;
+  color: white;
+  border-width: 0;
+  display: grid;
+  padding: 10px;
+  border-width: 0;
+  justify-self: center;
+  display: inline-block;
+}
+
+
+button:disabled{
+  background-color: gray;
+  color: lightgray;
+}
+
+button.cancel{
+  background-color:blue;
+}
+
+button.tool{
+  background-color:gray;
+  font-size: 1rem;
+  background-color: darkgray;
+}
+
+input{
+  font-size: 3em;
+  margin: 1vw;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.colorSelect{
+  display: grid;
+  border: black 1px solid;
+  right: 0;
+  left: 0;
+  height: 3vmax;
+  /*width: 18vmax;*/
+  justify-content: center;
+  align-content: center;
+  margin: 1vw;
+}
+
+img.logo{
+  height: 4rem;
+  border-radius: 50%;
+  border: black 1px solid;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+}
+.lds-dual-ring:after {
+  content: ' ';
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid blue;
+  border-color: blue transparent blue transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

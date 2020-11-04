@@ -6,11 +6,11 @@ import {number} from "prop-types";
 
 type TMobileOperator={
     item:mobileOperatorListInterface
-    onClick:(id:number)=>void
+    onClick:()=>void
 }
 
 export const MobileOperator:FC<TMobileOperator>=({item,onClick})=>{
-    return <div className={s.mobileOperatorItem} style={{'backgroundColor':`${item.color}`}}  onClick={()=>onClick(item.id)}>
-        <div>{item.name}</div>
+    return <div className={s.mobileOperatorItem} style={{'backgroundColor':`${item.color}`,"whiteSpace": "nowrap"}}  onClick={onClick}>
+        <img className={"logo"} onError={()=>alert('Файл существует!')} src={item.logo} alt=""/><div>{item.name}</div>
     </div>
 }
