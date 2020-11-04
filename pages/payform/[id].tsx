@@ -51,7 +51,7 @@ export default function PayForm (){
     const [paymentDone,setPaymentDone]=useState(false)
 
     let [payData,setPayData]=useState<payDataInterface>({
-        mobileOperator:mobileOperatorList[Number(router.query.id)].name,
+        mobileOperator:'gi',//mobileOperatorList[Number(router.query.id)].name,
         phoneNumber:'',
         amountPay:0,
         commission:0,
