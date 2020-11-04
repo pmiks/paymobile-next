@@ -11,6 +11,6 @@ type TMobileOperator={
 
 export const MobileOperator:FC<TMobileOperator>=({item,onClick})=>{
     return <div className={s.mobileOperatorItem} style={{'backgroundColor':`${item.color}`,"whiteSpace": "nowrap"}}  onClick={onClick}>
-        <img className={"logo"} onError={()=>alert('Файл существует!')} src={item.logo} alt=""/><div>{item.name}</div>
+        <img className={"logo"} src={item.logo} alt=""/><div>{item.name}</div>
     </div>
 }

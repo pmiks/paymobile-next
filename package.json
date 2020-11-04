@@ -2,7 +2,7 @@
   "name": "paymobile-next",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pmiks.github.io/paymobile-next",
+  "homepage": "https://paymobile-next.vercel.app/",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",

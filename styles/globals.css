@@ -71,7 +71,7 @@ input{
 img.logo{
   height: 4rem;
   border-radius: 50%;
-  border: black 1px solid;
+  /*border: black 1px solid;*/
 }
 
 .lds-dual-ring {
