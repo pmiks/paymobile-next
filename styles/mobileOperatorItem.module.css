@@ -1,0 +1,22 @@
+.mobileOperatorItem {
+    display: grid;
+    margin: 2vh 5vw;
+    border: 1px white solid;
+    border-radius: 15px;
+    font-size: 2em;
+    align-self: stretch;
+    align-items: center;
+    justify-items: center;
+    justify-self: stretch;
+    height: 3em;
+}
+
+.mobileOperatorItem:hover{
+    transform: scale(1.1);
+}
+.mobileOperatorItem>div {
+    display: grid;
+    color: white;
+    align-self:center;
+}
+

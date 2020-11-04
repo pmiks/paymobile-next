@@ -1,0 +1,49 @@
+.payForm{
+    display:grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.payForm div{
+    display: grid;
+    font-size: 3em;
+    background-color: inherit;
+    padding: 10px;
+}
+
+.payForm input{
+    font-size: 3em;
+    margin: 1vw;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+.maskInput{
+    font-size: 3rem;
+}
+
+.paymentButton{
+    margin: 1rem;
+    background-color:red;
+    font-size: 2rem;
+    border-radius: 5px;
+    color: white;
+    border-width: 0;
+    display: grid;
+    padding: 10px;
+    border-width: 0;
+    justify-self: center;
+}
+
+
+.paymentButton:disabled{
+    background-color: gray;
+    color: lightgray;
+}
+
+.textError{
+    color: red;
+    font-size: 1em;
+}
