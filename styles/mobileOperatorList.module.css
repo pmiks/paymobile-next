@@ -1,4 +1,6 @@
 .mobileListForm{
+    display: flex;
+    flex-direction: column;
 
 }
 .mobileListHeader{

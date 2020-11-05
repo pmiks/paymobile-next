@@ -11,6 +11,7 @@ import {AddOperatorModal} from "../components/modalAddOperator";
 export default function index(){
     const router=useRouter()
     const [addModalActive,setAddModalActive]=useState(false)
+
     const selectMobileOperator = (id:number)=>{
         router.push(`/payform/${id}`)
         console.log(id)
@@ -20,7 +21,7 @@ export default function index(){
     }
     return <AppForm><div className={s.mobileListHeader}>Выберите оператора:</div>
         {mobileOperatorList.map((item,i)=>
-            <MobileOperator item={item} onClick={()=>{selectMobileOperator(i)}}/>)}
+            <MobileOperator item={item} onClick={()=>{selectMobileOperator(i)}} key={i}/>)}
 
             <div style={{"textAlign":"right"}}><button className={'tool'} onClick={()=>setAddModalActive(true)}>Добавить оператора</button></div>
             <AddOperatorModal active={addModalActive} closeWindow={()=>setAddModalActive(false)} onConfirm={addNewMobileOperator}/>

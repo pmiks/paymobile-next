@@ -1,14 +1,12 @@
 .mobileOperatorItem {
-    display: grid;
-    margin: 2vh 5vw;
+    display: flex;
+    margin: 2vh 10vw;
     border: 1px white solid;
-    grid-template-columns: 1fr 1fr 1fr;
     border-radius: 15px;
-    font-size: 2em;
-    align-self: stretch;
+    font-size: 2.9rem;
+    align-content: center;
     align-items: center;
-    justify-items: center;
-    justify-self: stretch;
+    justify-items: stretch;
     height: 3em;
 }
 
@@ -16,8 +14,13 @@
     transform: scale(1.1);
 }
 .mobileOperatorItem>div {
-    display: grid;
+    display: flex;
+    flex: 2;
     color: white;
-    align-self:center;
+    justify-self: center;
+    justify-content: center;
+    justify-items: center;
 }
+
+
 

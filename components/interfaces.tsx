@@ -20,5 +20,12 @@ export interface serverAnswerInterface{
         isSuccessful:boolean,
         answerText:string
     }
-
 }
+
+
+export interface fieldCheckInterface{
+    dirty:boolean,
+    field:string,
+    error:string
+}
+

@@ -28,7 +28,7 @@
 }
 
 .modalWindowContext{
-    padding: 20px;
+    padding: 1vh;
     border-radius: 12px;
     background-color: white;
     border: gray 1px solid;
@@ -37,7 +37,7 @@
 }
 
 .modalWindowContextActive{
-    padding: 20px;
+    padding: 1vh;
     border-radius: 12px;
     background-color: white;
     border: gray 1px solid;
@@ -46,14 +46,14 @@
 }
 
 
-.modalParagraph{
-    display: grid;
-    justify-content: stretch;
-    padding: 20px;
-    align-content: center;
-    align-self: center;
-    align-items: center;
-}
+/*.modalParagraph{*/
+/*    display: grid;*/
+/*    justify-content: stretch;*/
+/*    padding: 20px;*/
+/*    align-content: center;*/
+/*    align-self: center;*/
+/*    align-items: center;*/
+/*}*/
 
 .modalHeader{
     display: grid;

@@ -1,96 +1,83 @@
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import s from '../../styles/payform.module.css'
-import modalStyle from '../../styles/modal.module.css'
 import {useForm} from 'react-hook-form'
-import {mobileOperatorList} from "../../components/init";
+import {mobileOperatorList, serverAnswers} from "../../components/init";
 import AppForm from "../../components/appform";
 import {ConfirmPayModal} from "../../components/modalConfirmPay";
 import {ServerRequestModal} from "../../components/modalServerRequest";
 import {ServerRequestModalDone} from "../../components/modalServerRequestDone";
-import {payDataInterface} from "../../components/interfaces";
-import {number} from "prop-types";
+import {fieldCheckInterface, payDataInterface, serverAnswerInterface} from "../../components/interfaces";
+import ErrorPage from 'next/error'
+import {maskPhone} from "../../components/functions";
+import {getIdTransaction, getServerData} from "../../api/serverRequest";
+import {MobileOperator} from "../../components/mobileOperatorItem";
 
-
-
-const getServerData=new Promise(function (resolve,reject){
-    setTimeout(()=>{
-       const serverData={
-         server:'payment',
-         port:3000,
-         status:'working'
-     }
-     resolve()
-    },15000)
-})
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-const getIdTransaction=()=>{
-    return getRandomInt(400000000000,999999999999)
-}
 
 export default function PayForm (){
     const {register,handleSubmit}=useForm()
     const router=useRouter()
-    let [phoneValid,setPhoneValid]=useState(false)
-    let [amountPayValid,setAmountPayValid]=useState(false)
-    let [phone,setPhone]=useState('+7')
-    let [amountPay,setAmountPay]=useState('')
-    let [phoneError,setPhoneError]=useState('Введите номер телефона')
-    let [amountPayError,setAmountPayError]=useState('Введите сумму платежа')
-    let [formValid,setFormValid]=useState(false)
 
-//    let [phoneObj,setPhoneObj]=useState({dirty:false,field:'+7',error:'Введите номер телефона'})
+
+    let [phoneField,setPhoneField]=useState<fieldCheckInterface>({dirty:false,field:'+7',error:'Введите номер телефона'})
+    let [amountPayField,setAmountPayField]=useState<fieldCheckInterface>({dirty:false,field:'',error:'Введите сумму платежа'})
+    let [formValid,setFormValid]=useState<boolean>(false)
+
 
     const [modalConfirmationPayment,setModalConfirmationPayment]=useState(false)
     const [modalPaymentProcess,setModalPaymentProcess]=useState(false)
 
-    const [paymentDone,setPaymentDone]=useState(false)
+    const [paymentDone,setPaymentDone]=useState<boolean>(false)
+
+    let [serverAnswer,setServerAnswer]=useState<serverAnswerInterface>(serverAnswers[0])
+
 
     let [payData,setPayData]=useState<payDataInterface>({
-        mobileOperator:'gi',//mobileOperatorList[Number(router.query.id)].name,
-        phoneNumber:'',
-        amountPay:0,
-        commission:0,
-        transactionId:''
-    })
+        mobileOperator:'', phoneNumber:'',amountPay:0,commission:0,transactionId:''}
+        )
 
     useEffect(()=>{
-        if (phoneError||amountPayError){
+        if (phoneField.error||amountPayField.error){
             setFormValid(false)
         } else setFormValid(true)
-    },[phoneError,amountPayError])
+    },[phoneField.error,amountPayField.error])
+
 
     const phoneNumberHandler=(e)=>{
-        let v=e.target.value.replace(/\D/g,"")
-        if (v.length!=11) setPhoneError('Некорректный номер телефона')//{setPhoneObj({...phoneObj,error:'Некорректный номер телефона'})}//setPhoneError('Некорректный номер телефона')
-        else setPhoneError('')//{setPhoneObj({...phoneObj,error:''}) }//setPhoneError('')
-        v=v.replace(/^[7,8]/g,"").substring(0, 10).replace(/^(\d{3})(\d)/g,"($1) $2")
-           .replace(/^(.{9})(\d)/g,"$1-$2").replace(/^(.{12})(\d)/g,"$1-$2");
-        setPhone('+7 '+v)//setPhoneObj({...phoneObj,field: '+7'+v})//setPhone('+7 '+v)
+        let phoneDigits=e.target.value.replace(/\D/g,"")
+        setPhoneField({...phoneField,field: maskPhone(phoneDigits),error:phoneDigits.length!=11?'Некорректный номер телефона':''})
     }
 
     const amountPayHandler=(e)=>{
         let v=e.target.value.replace(/\D/g,"").substring(0,6).replace(/^(.{4})(\d)/g,"$1.$2");
-        setAmountPay(v)
-        if (Number(e.target.value)<1||Number(e.target.value)>1000) setAmountPayError('Введите сумму платежа (1-1000 руб)')
-        else setAmountPayError('')
+        if (Number(e.target.value)<1||Number(e.target.value)>1000)
+            setAmountPayField({...amountPayField,field:v,error:'Введите сумму платежа (1-1000 руб)'})
+        else setAmountPayField({...amountPayField,field:v,error:''})
     }
 
     const blurHandler=(id)=>{
         switch (id.target.name){
-            case 'phoneNumber':setPhoneValid(true)// setPhoneObj({...phoneObj, dirty: true})
+            case 'phoneNumber':
+                setPhoneField({...phoneField, dirty: true})
                 break
-            case 'amountPay': setAmountPayValid(true)
+            case 'amountPay': setAmountPayField({...amountPayField, dirty: true})
         }
     }
 
+    const handlerSubmitPay=()=>{
+        setModalPaymentProcess(true)
+        setModalConfirmationPayment(false)
+        getServerData('https://anyserver:4200/sendpay').then((response) => {
+            setServerAnswer(response)
+            setPaymentDone(true)
+            setModalPaymentProcess(false)
+            console.log('Платеж обработан')
+        })
+    }
 
     const onSubmit=(formData)=>{
         setPayData({...payData,
+            mobileOperator:mobileOperatorList[Number(idMobileOperator)].name,
             transactionId:getIdTransaction(),
             phoneNumber:formData.phoneNumber,
             amountPay:Number(formData.amountPay),
@@ -99,62 +86,67 @@ export default function PayForm (){
         setModalConfirmationPayment(true)
     }
 
-    return <><AppForm><div className={s.payForm}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {/*<div>Оплата мобильной связи {mobileOperatorList[router.query.id].name}</div>*/}
-            <div>Номер телефона</div>
-            <input
-                type="tel"
-                value={phone}
-                placeholder={"+7 (000) 000 00 00 "}
-                inputMode={"numeric"}
-                name={"phoneNumber"}
-                id={"phoneNumber"}
-                onChange={(e)=>phoneNumberHandler(e)}
-                onBlur={(e)=>blurHandler(e)}
-                ref={register}
-            />
-            {/*(phoneObj.dirty&&phoneObj.error)&&<div className={s.textError}>{phoneObj.error}</div>*/}
-            {(phoneValid&&phoneError)&&<div className={s.textError}>{phoneError}</div>}
-            <div>Сумма платежа</div>
-            <input
-                type={"text"}
-                value={amountPay}
-                placeholder={"0"}
-                inputMode={"decimal"}
-                name={"amountPay"}
-                id={"amountPay"}
-                onChange={(e)=>amountPayHandler(e)}
-                onBlur={(e)=>blurHandler(e)}
-                ref={register}
-            />
-            {<div className={s.textError}>{(amountPayValid&&amountPayError)&&amountPayError}</div>}
+    let idMobileOperator=Number(router.query.id)
+    idMobileOperator=isNaN(idMobileOperator)?-1:Number(router.query.id)
 
-            <div><button type={"submit"} disabled={formValid?false:true} className={s.paymentButton}>Оплатить</button></div>
-        </form>
-    </div>
+        return <>
+        {idMobileOperator < 0||idMobileOperator > mobileOperatorList.length?<ErrorPage statusCode={404}/>:
+        <>
+        <AppForm>
+            <div className={s.payForm}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <MobileOperator item={mobileOperatorList[idMobileOperator]} onClick={()=>{}}/>
+                    <div className={s.payFormTitle}>Оплата мобильной связи {mobileOperatorList[idMobileOperator].name}</div>
+                    <div className={s.titleField}>Номер телефона </div>
+                    <input
+                        type="tel"
+                        value={phoneField.field}
+                        placeholder={"+7 (000) 000 00 00 "}
+                        inputMode={"numeric"}
+                        name={"phoneNumber"}
+                        id={"phoneNumber"}
+                        onChange={(e) => phoneNumberHandler(e)}
+                        onBlur={(e) => blurHandler(e)}
+                        ref={register}
+                    />
+                    <div className={s.textError}>{(phoneField.dirty&&phoneField.error)&&phoneField.error}</div>
+                    {/*{(phoneValid && phoneError) && <div className={s.textError}>{phoneError}</div>}*/}
+                    <div className={s.titleField}>Сумма платежа</div>
+                    <input
+                        type={"text"}
+                        value={amountPayField.field}
+                        placeholder={"0"}
+                        inputMode={"decimal"}
+                        name={"amountPay"}
+                        id={"amountPay"}
+                        onChange={(e) => amountPayHandler(e)}
+                        onBlur={(e) => blurHandler(e)}
+                        ref={register}
+                    />
+                    <div className={s.textError}>{(amountPayField.dirty && amountPayField.error) && amountPayField.error}</div>
 
-    </AppForm>
+                    <div>
+                        <button type={"submit"} disabled={formValid ? false : true}
+                                className={s.paymentButton}>Оплатить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </AppForm>
+
         {/*Модальное окно подтверждения  запроса*/}
-
-        <ConfirmPayModal
-            data={payData}
-            active={modalConfirmationPayment}
-            closeWindow={()=>setModalConfirmationPayment(false)}
-            onConfirm={ ()=>{
-                setModalPaymentProcess(true)
-                setModalConfirmationPayment(false)
-                getServerData.then(()=>{
-                    setPaymentDone(true)
-                    setModalPaymentProcess(false)
-                })
-                }}
-            onCancel={()=>setModalConfirmationPayment(false)}
-        />
-
-        <ServerRequestModal active={modalPaymentProcess}/>
-        <ServerRequestModalDone active={paymentDone} closeWindow={()=>setPaymentDone(false)}
-                                onDone={()=>{router.push('/')}
-        }/>
-    </>
+            <ConfirmPayModal
+                data={payData}
+                active={modalConfirmationPayment}
+                closeWindow={() => setModalConfirmationPayment(false)}
+                onConfirm={handlerSubmitPay}
+                onCancel={() => setModalConfirmationPayment(false)}
+                />
+            <ServerRequestModal active={modalPaymentProcess}/>
+            <ServerRequestModalDone result={serverAnswer} active={paymentDone} closeWindow={() => setPaymentDone(false)} onDone={() => { }}/>
+            {/*onDone={() => { router.push('/')}}/>*/}
+        </>
+     }
+     </>
 }
+
