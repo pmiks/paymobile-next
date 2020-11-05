@@ -21,7 +21,6 @@ export const AddOperatorModal:FC<AddOperatorT>=({active,closeWindow,onConfirm})=
     let {register,handleSubmit}=useForm()
 
     const onSubmit=(formData)=>{
-            alert(JSON.stringify(formData))
             onConfirm({name:formData.name,color:formData.color,logo:formData.logo,commisson:Number(formData.logo)})
             closeWindow()
     }
@@ -36,7 +35,7 @@ export const AddOperatorModal:FC<AddOperatorT>=({active,closeWindow,onConfirm})=
                <div className={"colorSelect"} onClick={()=>setColorPikerActive(true)} style={{"backgroundColor":`${color}`}} >Выберите цвет
                    <input type="hidden" value={color} name={"color"} id={"color"} ref={register}/>
                </div>
-                  <div>Логотип</div>
+                  <div>URL Логотипа</div>
                  <div><input type="text" name={"logo"} id={"logo"} ref={register}/></div>
                  <div style={{"textAlign":"center"}}><button>Добавить</button>
 

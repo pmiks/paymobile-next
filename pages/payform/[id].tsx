@@ -9,7 +9,7 @@ import {ServerRequestModal} from "../../components/modalServerRequest";
 import {ServerRequestModalDone} from "../../components/modalServerRequestDone";
 import {fieldCheckInterface, payDataInterface, serverAnswerInterface} from "../../components/interfaces";
 import ErrorPage from 'next/error'
-import {maskPhone} from "../../components/functions";
+import {maskPhone, maskPrice} from "../../components/functions";
 import {getIdTransaction, getServerData} from "../../api/serverRequest";
 import {MobileOperator} from "../../components/mobileOperatorItem";
 
@@ -49,7 +49,7 @@ export default function PayForm (){
     }
 
     const amountPayHandler=(e)=>{
-        let v=e.target.value.replace(/\D/g,"").substring(0,6).replace(/^(.{4})(\d)/g,"$1.$2");
+        let v=maskPrice(e.target.value)
         if (Number(e.target.value)<1||Number(e.target.value)>1000)
             setAmountPayField({...amountPayField,field:v,error:'Введите сумму платежа (1-1000 руб)'})
         else setAmountPayField({...amountPayField,field:v,error:''})

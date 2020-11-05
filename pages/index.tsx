@@ -14,7 +14,6 @@ export default function index(){
 
     const selectMobileOperator = (id:number)=>{
         router.push(`/payform/${id}`)
-        console.log(id)
     }
     const addNewMobileOperator=(data:mobileOperatorListInterface)=>{
         mobileOperatorList.push(data)

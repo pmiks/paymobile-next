@@ -9,7 +9,7 @@ export default function AppForm({children}){
     return <FormApp>
         <Head>Оплата мобильной связи</Head>
         <Form>{children}</Form>
-        {route.pathname!=="/"&&<Foot><Link href={'/'}><a>на главную</a></Link></Foot>}
+        {route.pathname!=="/"&&<Foot><Link href={'/'}><A>&#8592; Вернуться на главную</A></Link></Foot>}
     </FormApp>
 }
 
@@ -20,9 +20,10 @@ const FormApp = styled.div`
 const Head = styled.div`
     display: flex;
     margin 3vh;
-    padding: 1em;
-    font-size: 2rem;
-    justify-self: center;
+    padding: 1rem;
+    font-size: 3rem;
+    font-weight:bold;
+    justify-content:center;
     border gray 1px solid;
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
 `
@@ -38,8 +39,16 @@ const Form = styled.div`
 const Foot = styled.div`
     padding: 1em;
     font-size: 1.5rem;
-    justify-self: center;
-    justify-content:center;
+    text-align:center;
+`
+
+const A = styled.a`
+    padding:0.5vmax 2vmax;
+    border darkgray 1px solid;
+    border-radius:5px;
+    font-size: 1rem;
+    text-align:center;
+    background-color:gray;
 `
 
 
