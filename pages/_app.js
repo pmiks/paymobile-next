@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import {mobileOperatorListInit,currentLanguageInit,interfaceLanguage} from '../components/init'
 import {useState} from "react";
-import Context from './context'
+import Context from '../components/context'
 
 
 

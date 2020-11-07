@@ -17,7 +17,7 @@ import ErrorPage from 'next/error'
 import {maskName, maskPhone, maskPrice} from "../../components/functions";
 import {getIdTransaction, getServerData} from "../../api/serverRequest";
 import {MobileOperator} from "../../components/mobileOperatorItem";
-import Context from "../context";
+import Context from "../../components/context";
 
 
 export default function PayForm (){

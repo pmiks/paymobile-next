@@ -4,7 +4,7 @@ import s from  '../styles/mobileOperatorList.module.css'
 import {useRouter} from "next/router";
 import AppForm from "../components/appform";
 import {useContext, useState} from "react";
-import Context from './context'
+import Context from '../components/context'
 import {AddOperatorModal} from "../components/modalAddOperator";
 
 

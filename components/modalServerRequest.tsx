@@ -4,7 +4,7 @@ import s from "../styles/payform.module.css";
 import {FC, useContext, useState} from "react";
 import React from 'react';
 import {fieldNameInterface} from "./interfaces";
-import Context from "../pages/context";
+import Context from "./context";
 
 type ServerRequestT={
     active:boolean

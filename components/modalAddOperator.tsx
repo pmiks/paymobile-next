@@ -6,7 +6,7 @@ import {ChromePicker} from 'react-color'
 import {useForm} from "react-hook-form";
 import {fieldCheckInterface, fieldNameInterface} from "./interfaces";
 import {maskName, maskPrice, maskURL} from "./functions";
-import Context from "../pages/context";
+import Context from "./context";
 
 type AddOperatorT={
     active:boolean

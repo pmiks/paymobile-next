@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {useRouter} from "next/router";
 import styled from 'styled-components'
 import {useContext} from "react";
-import Context from "../pages/context";
+import Context from "./context";
 
 
 export default function AppForm({children}){
