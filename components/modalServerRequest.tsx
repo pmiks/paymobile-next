@@ -11,7 +11,7 @@ type ServerRequestT={
 }
 
 export const ServerRequestModal:FC<ServerRequestT>=({active})=>{
-    const {language}=useContext<fieldNameInterface>(Context)
+    const {language}=useContext(Context)
     return <Modal active={active} closeWindow={()=>{}} clickOverflowClose={false}>
         <div className={modalStyle.modalParagraph}>
             <div className={modalStyle.modalHeader}>{language.MSG_PAYMENT_PROCESSING}</div>

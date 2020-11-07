@@ -101,7 +101,7 @@ export default function PayForm (){
         <AppForm>
             <div className={s.payForm}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <MobileOperator item={mobileOperatorList[idMobileOperator]} onClick={()=>{}}/>
+                    <MobileOperator item={mobileOperatorList[idMobileOperator]} onDelete={()=>{}} onClick={()=>{}}/>
                     {/*<div className={s.payFormTitle}>Оплата мобильной связи {mobileOperatorList[idMobileOperator].name}</div>*/}
                     <div className={s.titleField}>{language.FIELD_PHONE_NUMBER} </div>
                     <input

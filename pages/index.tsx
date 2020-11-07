@@ -8,7 +8,7 @@ import Context from './context'
 import {AddOperatorModal} from "../components/modalAddOperator";
 
 
-export default function index({languages,currLang,selectLang,setMobileOperatorList}){
+export default function index({setMobileOperatorList}){
     const {language,mobileOperatorList}=useContext(Context)
     const router=useRouter()
     const [addModalActive,setAddModalActive]=useState(false)
@@ -30,14 +30,14 @@ export default function index({languages,currLang,selectLang,setMobileOperatorLi
        console.log(mobileOperatorList)
     }
 
-    return <AppForm currentLang={currLang} languages={languages} selectLang={selectLang}>
+    return <AppForm>
         <div className={s.mobileListHeader}>{language.TITLE_SELECT_OPERATOR}</div>
 
         {mobileOperatorList.map((item,i)=>
             <MobileOperator
                 item={item}
                 onClick={()=>{selectMobileOperator(i)}}
-                onDelete={(e)=>{delNewMobileOperator(i)}}
+                onDelete={(e)=>{delNewMobileOperator(i);e.stopPropagation}}
                 key={i}
             />)}
 

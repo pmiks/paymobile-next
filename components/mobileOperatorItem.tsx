@@ -6,12 +6,12 @@ import {HEXToVBColor} from "./functions";
 
 type TMobileOperator={
     item:mobileOperatorListInterface
-    animated:boolean|null
+    //animated:boolean|null
     onClick:()=>void
-    onDelete:()=>void
+    onDelete:(any)=>void
 }
 
-export const MobileOperator:FC<TMobileOperator>=({item,onClick,animated,onDelete})=>{
+export const MobileOperator:FC<TMobileOperator>=({item,onClick,onDelete})=>{
     let inverse=HEXToVBColor(item.color)>500
     return <div
                 className={s.mobileOperatorItem}
@@ -24,7 +24,7 @@ export const MobileOperator:FC<TMobileOperator>=({item,onClick,animated,onDelete
             </div>
 
          {item.userData&&<div
-            onClick={(e)=>{onDelete();e.stopPropagation}}
+            onClick={onDelete}
             className={s.delButton}>X</div>}
     </div>
 }

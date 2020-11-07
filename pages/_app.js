@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }) {
      }
           }>
           <Component {...pageProps}
-                     operators={mobileOperatorList}
+//                     operators={mobileOperatorList}
                      setMobileOperatorList={setMobileOperatorList}
           />
      </Context.Provider>)

@@ -6,18 +6,14 @@ import {ChromePicker} from 'react-color'
 import {useForm} from "react-hook-form";
 import {fieldCheckInterface, fieldNameInterface} from "./interfaces";
 import {maskName, maskPrice, maskURL} from "./functions";
-import {mobileOperatorList} from "./init";
 import Context from "../pages/context";
 
 type AddOperatorT={
     active:boolean
- //   data:payDataInterface
     closeWindow:()=>void
     onConfirm:(mobileOperatorListInterface)=>void
-//    onCancel:()=>void
 }
 
-//export const ConfirmPayModal:FC<ConfirmPayT>=({data,active,closeWindow,onConfirm,onCancel})=>{
 export const AddOperatorModal:FC<AddOperatorT>=({active,closeWindow,onConfirm})=>{
     const {language,mobileOperatorList}=useContext(Context)
 

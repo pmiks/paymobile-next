@@ -15,7 +15,7 @@ type ConfirmPayT={
 }
 
 export const ConfirmPayModal:FC<ConfirmPayT>=({data,active,closeWindow,onConfirm,onCancel})=>{
-    const {language}=useContext<fieldNameInterface>(Context)
+    const {language}=useContext(Context)
     return <Modal active={active} closeWindow={closeWindow} clickOverflowClose={false}>
         <div className={modalStyle.modalParagraph}>
             <div className={modalStyle.modalHeader}>{language.TITLE_CONFIRM_PAY}</div>
