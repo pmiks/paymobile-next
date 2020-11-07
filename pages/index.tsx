@@ -1,28 +1,55 @@
-import {mobileOperatorListInterface} from "../components/interfaces";
+import {fieldNameInterface, mobileOperatorListInterface} from "../components/interfaces";
 import {MobileOperator} from "../components/mobileOperatorItem";
-import {mobileOperatorList} from "../components/init";
 import s from  '../styles/mobileOperatorList.module.css'
 import {useRouter} from "next/router";
-import {number} from "prop-types";
 import AppForm from "../components/appform";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import Context from './context'
 import {AddOperatorModal} from "../components/modalAddOperator";
 
-export default function index(){
+
+export default function index({languages,currLang,selectLang,setMobileOperatorList}){
+    const {language,mobileOperatorList}=useContext(Context)
     const router=useRouter()
     const [addModalActive,setAddModalActive]=useState(false)
 
-    const selectMobileOperator = (id:number)=>{
+        const selectMobileOperator = (id:number)=>{
         router.push(`/payform/${id}`)
     }
-    const addNewMobileOperator=(data:mobileOperatorListInterface)=>{
-        mobileOperatorList.push(data)
-    }
-    return <AppForm><div className={s.mobileListHeader}>Выберите оператора:</div>
-        {mobileOperatorList.map((item,i)=>
-            <MobileOperator item={item} onClick={()=>{selectMobileOperator(i)}} key={i}/>)}
 
-            <div style={{"textAlign":"right"}}><button className={'tool'} onClick={()=>setAddModalActive(true)}>Добавить оператора</button></div>
-            <AddOperatorModal active={addModalActive} closeWindow={()=>setAddModalActive(false)} onConfirm={addNewMobileOperator}/>
+
+    const addNewMobileOperator=(data:mobileOperatorListInterface)=>{
+        setMobileOperatorList([...mobileOperatorList,data])
+    }
+
+    const delNewMobileOperator=(i:number)=>{
+        console.log(mobileOperatorList)
+       let data=mobileOperatorList
+       data.splice(i,1)
+       setMobileOperatorList(data)
+       console.log(mobileOperatorList)
+    }
+
+    return <AppForm currentLang={currLang} languages={languages} selectLang={selectLang}>
+        <div className={s.mobileListHeader}>{language.TITLE_SELECT_OPERATOR}</div>
+
+        {mobileOperatorList.map((item,i)=>
+            <MobileOperator
+                item={item}
+                onClick={()=>{selectMobileOperator(i)}}
+                onDelete={(e)=>{delNewMobileOperator(i)}}
+                key={i}
+            />)}
+
+            <div style={{"textAlign":"right"}}>
+                <button className={'tool'} onClick={()=>setAddModalActive(true)}>{language.BTN_ADD_MOBILE}</button>
+            </div>
+
+            <AddOperatorModal
+                active={addModalActive}
+                closeWindow={()=>setAddModalActive(false)}
+                onConfirm={addNewMobileOperator}
+            />
+
     </AppForm>
 }

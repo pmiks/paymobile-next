@@ -2,15 +2,30 @@ import {mobileOperatorListInterface} from "./interfaces";
 import React, {FC} from "react";
 import s from '../styles/mobileOperatorItem.module.css'
 import styled from 'styled-components'
+import {HEXToVBColor} from "./functions";
 
 type TMobileOperator={
     item:mobileOperatorListInterface
+    animated:boolean|null
     onClick:()=>void
+    onDelete:()=>void
 }
 
-export const MobileOperator:FC<TMobileOperator>=({item,onClick})=>{
-    return <div className={s.mobileOperatorItem} style={{'backgroundColor':`${item.color}`,"whiteSpace": "nowrap"}}  onClick={onClick}>
-        <div><img className={"logo"} src={item.logo} alt=""/> <div>{item.name}</div></div>
+export const MobileOperator:FC<TMobileOperator>=({item,onClick,animated,onDelete})=>{
+    let inverse=HEXToVBColor(item.color)>500
+    return <div
+                className={s.mobileOperatorItem}
+                style={{'backgroundColor':`${item.color}`,"whiteSpace": "nowrap","borderColor": `${HEXToVBColor(item.color)>500?"gray":"white"}`}}
+                onClick={onClick}
+            >
+            <div className={s.content}>
+                <img className={s.logo} src={item.logo} alt=""/>
+                <div className={inverse?s.blackFont:''}>{item.name}</div>
+            </div>
+
+         {item.userData&&<div
+            onClick={(e)=>{onDelete();e.stopPropagation}}
+            className={s.delButton}>X</div>}
     </div>
 }
 

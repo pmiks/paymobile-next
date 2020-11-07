@@ -1,23 +1,29 @@
 import {useRouter} from "next/router";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import s from '../../styles/payform.module.css'
 import {useForm} from 'react-hook-form'
-import {mobileOperatorList, serverAnswers} from "../../components/init";
+import {serverAnswers} from "../../components/init";
 import AppForm from "../../components/appform";
 import {ConfirmPayModal} from "../../components/modalConfirmPay";
 import {ServerRequestModal} from "../../components/modalServerRequest";
 import {ServerRequestModalDone} from "../../components/modalServerRequestDone";
-import {fieldCheckInterface, payDataInterface, serverAnswerInterface} from "../../components/interfaces";
+import {
+    fieldCheckInterface,
+    fieldNameInterface,
+    payDataInterface,
+    serverAnswerInterface
+} from "../../components/interfaces";
 import ErrorPage from 'next/error'
-import {maskPhone, maskPrice} from "../../components/functions";
+import {maskName, maskPhone, maskPrice} from "../../components/functions";
 import {getIdTransaction, getServerData} from "../../api/serverRequest";
 import {MobileOperator} from "../../components/mobileOperatorItem";
+import Context from "../context";
 
 
 export default function PayForm (){
+    const {language,mobileOperatorList}=useContext(Context)
     const {register,handleSubmit}=useForm()
     const router=useRouter()
-
 
     let [phoneField,setPhoneField]=useState<fieldCheckInterface>({dirty:false,field:'+7',error:'Введите номер телефона'})
     let [amountPayField,setAmountPayField]=useState<fieldCheckInterface>({dirty:false,field:'',error:'Введите сумму платежа'})
@@ -96,8 +102,8 @@ export default function PayForm (){
             <div className={s.payForm}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <MobileOperator item={mobileOperatorList[idMobileOperator]} onClick={()=>{}}/>
-                    <div className={s.payFormTitle}>Оплата мобильной связи {mobileOperatorList[idMobileOperator].name}</div>
-                    <div className={s.titleField}>Номер телефона </div>
+                    {/*<div className={s.payFormTitle}>Оплата мобильной связи {mobileOperatorList[idMobileOperator].name}</div>*/}
+                    <div className={s.titleField}>{language.FIELD_PHONE_NUMBER} </div>
                     <input
                         type="tel"
                         value={phoneField.field}
@@ -111,7 +117,7 @@ export default function PayForm (){
                     />
                     <div className={s.textError}>{(phoneField.dirty&&phoneField.error)&&phoneField.error}</div>
                     {/*{(phoneValid && phoneError) && <div className={s.textError}>{phoneError}</div>}*/}
-                    <div className={s.titleField}>Сумма платежа</div>
+                    <div className={s.titleField}>{language.FIELD_AMOUNT_PAY}</div>
                     <input
                         type={"text"}
                         value={amountPayField.field}
@@ -127,7 +133,7 @@ export default function PayForm (){
 
                     <div>
                         <button type={"submit"} disabled={formValid ? false : true}
-                                className={s.paymentButton}>Оплатить
+                                className={s.paymentButton}>{language.BTN_PAY}
                         </button>
                     </div>
                 </form>
