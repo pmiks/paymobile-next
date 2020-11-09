@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-import s from '../../styles/payform.module.css'
-import {useForm} from 'react-hook-form'
+//import s from '../../styles/payform.module.css'
+import {FieldName, useForm} from 'react-hook-form'
 import {serverAnswers} from "../../components/init";
 import AppForm from "../../components/appform";
 import {ConfirmPayModal} from "../../components/modalConfirmPay";
@@ -9,24 +9,24 @@ import {ServerRequestModal} from "../../components/modalServerRequest";
 import {ServerRequestModalDone} from "../../components/modalServerRequestDone";
 import {
     fieldCheckInterface,
-    fieldNameInterface,
     payDataInterface,
     serverAnswerInterface
 } from "../../components/interfaces";
 import ErrorPage from 'next/error'
-import {maskName, maskPhone, maskPrice} from "../../components/functions";
+import {maskPhone, maskPrice} from "../../components/functions";
 import {getIdTransaction, getServerData} from "../../api/serverRequest";
 import {MobileOperator} from "../../components/mobileOperatorItem";
 import Context from "../../components/context";
-
+import {ButtonSC, ErrorFieldSC, InputSC, WindowTitleSC,FieldNameSC} from "../../styles/globalStyle";
+import styled from 'styled-components'
 
 export default function PayForm (){
     const {language,mobileOperatorList}=useContext(Context)
     const {register,handleSubmit}=useForm()
     const router=useRouter()
 
-    let [phoneField,setPhoneField]=useState<fieldCheckInterface>({dirty:false,field:'+7',error:'Введите номер телефона'})
-    let [amountPayField,setAmountPayField]=useState<fieldCheckInterface>({dirty:false,field:'',error:'Введите сумму платежа'})
+    let [phoneField,setPhoneField]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
+    let [amountPayField,setAmountPayField]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
     let [formValid,setFormValid]=useState<boolean>(false)
 
 
@@ -39,7 +39,7 @@ export default function PayForm (){
 
 
     let [payData,setPayData]=useState<payDataInterface>({
-        mobileOperator:'', phoneNumber:'',amountPay:0,commission:0,transactionId:''}
+        mobileOperator:'', phoneNumber:'',amountPay:'',commission:'',transactionId:''}
         )
 
     useEffect(()=>{
@@ -51,22 +51,23 @@ export default function PayForm (){
 
     const phoneNumberHandler=(e)=>{
         let phoneDigits=e.target.value.replace(/\D/g,"")
-        setPhoneField({...phoneField,field: maskPhone(phoneDigits),error:phoneDigits.length!=11?'Некорректный номер телефона':''})
+        setPhoneField({...phoneField,field: maskPhone(phoneDigits),error:phoneDigits.length<11?language.ERR_FIELD_PHONE_INCORRECT:''})
     }
 
     const amountPayHandler=(e)=>{
         let v=maskPrice(e.target.value)
         if (Number(e.target.value)<1||Number(e.target.value)>1000)
-            setAmountPayField({...amountPayField,field:v,error:'Введите сумму платежа (1-1000 руб)'})
+            setAmountPayField({...amountPayField,field:v,error:language.ERR_FIELD_AMOUNT_PAY_INCORRECT})
         else setAmountPayField({...amountPayField,field:v,error:''})
     }
 
-    const blurHandler=(id)=>{
-        switch (id.target.name){
+    const blurHandler=(event)=>{
+        let err=event.target.value.length==0
+        switch (event.target.name){
             case 'phoneNumber':
-                setPhoneField({...phoneField, dirty: true})
+                setPhoneField({...phoneField, dirty: true,error:err?language.ERR_FIELD_EMPTY_FIELD:phoneField.error})
                 break
-            case 'amountPay': setAmountPayField({...amountPayField, dirty: true})
+            case 'amountPay': setAmountPayField({...amountPayField, dirty: true,error:err?language.ERR_FIELD_EMPTY_FIELD:amountPayField.error})
         }
     }
 
@@ -86,8 +87,8 @@ export default function PayForm (){
             mobileOperator:mobileOperatorList[Number(idMobileOperator)].name,
             transactionId:getIdTransaction(),
             phoneNumber:formData.phoneNumber,
-            amountPay:Number(formData.amountPay),
-            commission:Number(formData.amountPay)*0.1
+            amountPay:formData.amountPay,
+            commission:(Number(formData.amountPay)/100*mobileOperatorList[Number(idMobileOperator)].commission).toFixed(2)
         })
         setModalConfirmationPayment(true)
     }
@@ -99,45 +100,48 @@ export default function PayForm (){
         {idMobileOperator < 0||idMobileOperator > mobileOperatorList.length?<ErrorPage statusCode={404}/>:
         <>
         <AppForm>
-            <div className={s.payForm}>
+            <PaymentForm>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <MobileOperator item={mobileOperatorList[idMobileOperator]} onDelete={()=>{}} onClick={()=>{}}/>
                     {/*<div className={s.payFormTitle}>Оплата мобильной связи {mobileOperatorList[idMobileOperator].name}</div>*/}
-                    <div className={s.titleField}>{language.FIELD_PHONE_NUMBER} </div>
-                    <input
+                    <WindowTitleSC/>
+                    <FieldNameSC>{language.FIELD_PHONE_NUMBER} </FieldNameSC>
+                    <InputSC
                         type="tel"
                         value={phoneField.field}
                         placeholder={"+7 (000) 000 00 00 "}
                         inputMode={"numeric"}
                         name={"phoneNumber"}
                         id={"phoneNumber"}
+                        autoComplete={"off"}
                         onChange={(e) => phoneNumberHandler(e)}
                         onBlur={(e) => blurHandler(e)}
                         ref={register}
                     />
-                    <div className={s.textError}>{(phoneField.dirty&&phoneField.error)&&phoneField.error}</div>
+                    <ErrorFieldSC>{(phoneField.dirty&&phoneField.error)&&phoneField.error}</ErrorFieldSC>
                     {/*{(phoneValid && phoneError) && <div className={s.textError}>{phoneError}</div>}*/}
-                    <div className={s.titleField}>{language.FIELD_AMOUNT_PAY}</div>
-                    <input
+                    <FieldNameSC>{language.FIELD_AMOUNT_PAY}</FieldNameSC>
+                    <InputSC
                         type={"text"}
                         value={amountPayField.field}
                         placeholder={"0"}
                         inputMode={"decimal"}
                         name={"amountPay"}
+                        autoComplete={"off"}
                         id={"amountPay"}
                         onChange={(e) => amountPayHandler(e)}
                         onBlur={(e) => blurHandler(e)}
                         ref={register}
                     />
-                    <div className={s.textError}>{(amountPayField.dirty && amountPayField.error) && amountPayField.error}</div>
+                    <ErrorFieldSC>{(amountPayField.dirty && amountPayField.error) && amountPayField.error}</ErrorFieldSC>
 
                     <div>
-                        <button type={"submit"} disabled={formValid ? false : true}
-                                className={s.paymentButton}>{language.BTN_PAY}
-                        </button>
+                        <ButtonSC typeName={"ok"} disabled={formValid ? false : true}>
+                            {language.BTN_PAY}
+                        </ButtonSC>
                     </div>
                 </form>
-            </div>
+            </PaymentForm>
         </AppForm>
 
         {/*Модальное окно подтверждения  запроса*/}
@@ -149,10 +153,21 @@ export default function PayForm (){
                 onCancel={() => setModalConfirmationPayment(false)}
                 />
             <ServerRequestModal active={modalPaymentProcess}/>
-            <ServerRequestModalDone result={serverAnswer} active={paymentDone} closeWindow={() => setPaymentDone(false)} onDone={() => { }}/>
-            {/*onDone={() => { router.push('/')}}/>*/}
+            <ServerRequestModalDone result={serverAnswer} active={paymentDone} closeWindow={() => setPaymentDone(false)}
+                                    onDone={() => { router.push('/')}}/>
         </>
      }
      </>
 }
+
+const PaymentForm = styled.div`
+    display:flex;
+    flex-direction:column;
+    justify-content: space-around;
+    text-align: center;
+    margin:5rem;
+ `
+
+
+
 

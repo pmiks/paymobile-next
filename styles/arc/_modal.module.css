@@ -11,6 +11,7 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.5s;
+    z-index:0
 }
 
 .modalWindowActive {
@@ -25,6 +26,7 @@
     align-items: center;
     opacity: 1;
     transition: 1s;
+    z-index:10
 }
 
 .modalWindowContext{
@@ -46,14 +48,6 @@
 }
 
 
-/*.modalParagraph{*/
-/*    display: grid;*/
-/*    justify-content: stretch;*/
-/*    padding: 20px;*/
-/*    align-content: center;*/
-/*    align-self: center;*/
-/*    align-items: center;*/
-/*}*/
 
 .modalHeader{
     display: grid;

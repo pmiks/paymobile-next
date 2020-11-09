@@ -1,14 +1,18 @@
 .mobileOperatorItem {
     display: flex;
     position: relative;
-    margin: 2vh 10vw;
+    margin: 2vh 2vw;
     border: 1px white solid;
+    padding: 0 5vmax;
     border-radius: 15px;
     font-size: 2.9rem;
     align-content: center;
     align-items: center;
     justify-items: stretch;
+    justify-content: stretch;
+    justify-self: stretch;
     height: 3em;
+    overflow: hidden;
 }
 
 .mobileOperatorItem:hover{
@@ -55,9 +59,11 @@
     width: 3rem;
     height: 3rem;
     font-size: 2.2rem;
+    /*right: -4vw;*/
     right: 1vw;
     top:1vw;
     background-color: black;
+    border:1px white solid;
     /*align-items:flex-start;*/
     justify-self: center;
     justify-content: center;

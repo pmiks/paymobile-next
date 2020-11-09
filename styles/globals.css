@@ -2,9 +2,11 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-size: 1vmax;
+  font-size: 1.2vmin;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  display: flex;
+  justify-content:space-around;
 }
 
 a {
@@ -17,55 +19,144 @@ a {
 }
 
 div{
-  white-space: nowrap;
+  /*white-space: nowrap;*/
 }
 
-button{
-  margin: 1rem;
-  background-color:red;
-  font-size: 2rem;
-  border-radius: 5px;
-  color: white;
-  border-width: 0;
-  padding: 10px;
-  justify-self: center;
-  display: inline-block;
-}
+/*button{*/
+/*  font-size: 2rem;*/
+/*  border-radius: 5px;*/
+/*  color: white;*/
+/*  border: white 1px solid;*/
+/*  padding: 10px;*/
+/*  justify-self: center;*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*button:hover{*/
+/*  transform: scale(1.1);*/
+/*}*/
+
+/*button:disabled{*/
+/*  background-color: gray;*/
+/*  color: lightgray;*/
+/*}*/
+
+/*button.ok{*/
+/*  background-color: forestgreen;*/
+/*}*/
+
+/*button.cancel{*/
+/*  color: black;*/
+/*  background-color:white;*/
+/*  border: dimgray 2px solid;*/
+/*}*/
+
+/*button.error{*/
+/*  color: black;*/
+/*  background-color:red;*/
+/*  border: dimgray 2px solid;*/
+/*}*/
 
 
-button:disabled{
-  background-color: gray;
-  color: lightgray;
-}
+/*button.tool{*/
+/*  background-color:gray;*/
+/*  background-color: darkgray;*/
+/*}*/
 
-button.cancel{
-  background-color:blue;
-}
+/*input{*/
+/*  font-size: 2.5em;*/
+/*  margin: 1vmax;*/
+/*  padding: 5px;*/
+/*  border-radius: 5px;*/
+/*  flex-basis: auto;*/
+/*}*/
 
-button.tool{
-  background-color:gray;
-  font-size: 1rem;
-  background-color: darkgray;
-}
+/*div.title{*/
+/*  font-size: 2.2rem;*/
+/*  font-weight: bold;*/
+/*  text-align: center;*/
+/*}*/
 
-input{
-  font-size: 2.5em;
-  margin: 1vmax;
-  padding: 5px;
-  border-radius: 5px;
-  flex-basis: auto;
-}
+/*div.ErrorText{*/
+/*  color: red;*/
+/*  padding: 0px 2rem;*/
+/*  flex-basis: fit-content;*/
+/*}*/
 
-.colorSelect{
-  display: grid;
-  border: black 1px solid;
+/*.colorSelect{*/
+/*  display: grid;*/
+/*  border: black 1px solid;*/
+/*  right: 0;*/
+/*  left: 0;*/
+/*  height: 3vmax;*/
+/*  !*width: 18vmax;*!*/
+/*  justify-content: center;*/
+/*  align-content: center;*/
+/*  margin: 1vw;*/
+/*}*/
+
+.modalWindow{
+  bottom: 0;
   right: 0;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  top:0;
   left: 0;
-  height: 3vmax;
-  /*width: 18vmax;*/
+  display: grid;
   justify-content: center;
-  align-content: center;
-  margin: 1vw;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+  z-index:0
+}
+
+.modalWindowActive {
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  top:0;
+  left: 0;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: 1s;
+  z-index:10
+}
+
+.modalWindowContext{
+  padding: 1vh;
+  border-radius: 12px;
+  background-color: white;
+  border: gray 1px solid;
+  max-width: 40vw;
+  transform: scale(0);
+  transition: 1s;
+}
+
+.modalWindowContextActive{
+  padding: 1vh;
+  border-radius: 12px;
+  background-color: white;
+  border: gray 1px solid;
+  max-width: 40vw;
+  transform: scale(1);
+  transition: 0.5s;
+}
+
+
+
+.modalHeader{
+  display: grid;
+  justify-content: center;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.modalItem{
+  font-size: 1.3em;
 }
 
 .lds-dual-ring {

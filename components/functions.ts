@@ -13,16 +13,14 @@ export const maskPrice=(str:string,min:number=1,max:number=1000,round:boolean=fa
         .replace(/^0{2}/, "0")
         .replace(/^0(\d)/, "$1")
         .replace(/(\d+)(\.\d{2})(\d*)/, "$1$2")
-        //.replace(/\.+/g,".")
         .replace(/^\./, "0.")
         .replace(/^(\d{4})(\d)/, "$1.$2")
     return num
-    //return num>max?max:(num<min?min:num)
 }
 
 export const maskName=(str:string,len:number=255):string=>
     str.substring(0,len)
-        .replace(/[^A-Za-zА-Яa-я0-9_-\s]/g, "").replace(/\s+/g," ")
+        .replace(/[^A-Za-zА-Яa-я0-9_-\s]/g, "").replace(/[\s+]/g," ").replace(/^\s/,"")
 
 export const maskURL=(str:string,len:number=255):string=>
     str.substring(0,len)

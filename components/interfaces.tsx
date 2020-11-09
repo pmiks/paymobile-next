@@ -10,8 +10,8 @@ export interface mobileOperatorListInterface {
 export interface payDataInterface{
     mobileOperator:string,
     phoneNumber:string,
-    amountPay:number,
-    commission:number,
+    amountPay:string,
+    commission:string,
     transactionId:string
 }
 
@@ -40,6 +40,7 @@ export interface fieldNameInterface {
     BTN_PAY:string,
     BTN_BACK_TO_MAIN:string,
     BTN_OK:string,
+    FIELD_NAME_LANGUAGE:string;
     FIELD_TRANSACTION_NUMBER:string,
     FIELD_AMOUNT_PAY:string,
     FIELD_PHONE_NUMBER:string,
@@ -51,7 +52,13 @@ export interface fieldNameInterface {
     TITLE_APP:string,
     TITLE_CONFIRM_PAY:string,
     TITLE_SELECT_OPERATOR:string,
-    MSG_PAYMENT_PROCESSING:string
+    TITLE_ADD_OPERATOR:string,
+    MSG_PAYMENT_PROCESSING:string,
+    ERR_FIELD_EMPTY_FIELD:string,
+    ERR_FIELD_OPERATOR_EXIST:string,
+    ERR_FIELD_BIG_PERCENT:string,
+    ERR_FIELD_PHONE_INCORRECT:string,
+    ERR_FIELD_AMOUNT_PAY_INCORRECT:string,
 }
 
 export interface languageDataInteface{
