@@ -1,9 +1,7 @@
 import {Modal} from "./modal";
-//import modalStyle from "../styles/modalConfirmPay.module.css";
-//import s from "../styles/payform.module.css";
 import {FC, useContext, useState} from "react";
 import React from 'react';
-import {fieldNameInterface, payDataInterface} from "./interfaces";
+import {payDataInterface} from "./interfaces";
 import Context from "./context";
 import styled from 'styled-components'
 import {ButtonBarSC, ButtonSC, FieldNameSC, WindowTitleSC} from "../styles/globalStyle";
@@ -19,23 +17,28 @@ type ConfirmPayT={
 export const ConfirmPayModal:FC<ConfirmPayT>=({data,active,closeWindow,onConfirm,onCancel})=>{
     const {language}=useContext(Context)
     return <Modal active={active} closeWindow={closeWindow} clickOverflowClose={false}>
-        <>
+
             <WindowTitleSC>{language.TITLE_CONFIRM_PAY}</WindowTitleSC>
+
             <FieldNameSC> {language.FIELD_NAME_OPERATOR} </FieldNameSC>
                 <FieldValue>{data.mobileOperator}</FieldValue>
+
             <FieldNameSC>{language.FIELD_PHONE_NUMBER} </FieldNameSC>
                 <FieldValue>{data.phoneNumber}</FieldValue>
+
             <FieldNameSC>{language.FIELD_AMOUNT_PAY} </FieldNameSC>
                 <FieldValue>{data.amountPay} &#x20BD;</FieldValue>
+
             <FieldNameSC>{language.FIELD_COMMISSION}</FieldNameSC>
                 <FieldValue>{data.commission} &#x20BD;</FieldValue>
+
             <FieldNameSC>{language.FIELD_TRANSACTION_NUMBER}</FieldNameSC>
                 <FieldValue>#{data.transactionId}</FieldValue>
+
             <ButtonBarSC>
                 <ButtonSC typeName={'ok'}onClick={()=>{onConfirm();closeWindow()}}>{language.BTN_PAY}</ButtonSC>
                 <ButtonSC typeName={'cancel'} onClick={()=>{closeWindow()}}>{language.BTN_CANCEL}</ButtonSC>
             </ButtonBarSC>
-            </>
     </Modal>
 }
 

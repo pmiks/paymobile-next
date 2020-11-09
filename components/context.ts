@@ -3,11 +3,11 @@ import {interfaceLanguage, mobileOperatorListInit} from "./init";
 import {fieldNameInterface, mobileOperatorListInterface} from "./interfaces";
 
 type ContextType={
-    language:fieldNameInterface,
-    mobileOperatorList:mobileOperatorListInterface[],
-    currLang:string,
-    langList:{key:string,displayName:string}[],
-    setLanguage:(string)=>void,
+    language:fieldNameInterface
+    mobileOperatorList:mobileOperatorListInterface[]
+    currLang:string
+    langList:{key:string,displayName:string}[]
+    setLanguage:(string)=>void
     setMobileOperatorList:(mobileOperatorListInterface)=>void
 }
 

@@ -53,12 +53,18 @@ export interface fieldNameInterface {
     TITLE_CONFIRM_PAY:string,
     TITLE_SELECT_OPERATOR:string,
     TITLE_ADD_OPERATOR:string,
+    TITLE_COPYRIGHT:string,
     MSG_PAYMENT_PROCESSING:string,
     ERR_FIELD_EMPTY_FIELD:string,
     ERR_FIELD_OPERATOR_EXIST:string,
     ERR_FIELD_BIG_PERCENT:string,
     ERR_FIELD_PHONE_INCORRECT:string,
     ERR_FIELD_AMOUNT_PAY_INCORRECT:string,
+    ERR_404:string,
+    ERR_SERVER_CONNECTION:string,
+    ERR_SERVER_REQUEST:string,
+    ERR_SERVER_ANSWER:string,
+    MSG_SERVER_SUCCESSFUL:string
 }
 
 export interface languageDataInteface{

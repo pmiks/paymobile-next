@@ -27,7 +27,7 @@ export const maskURL=(str:string,len:number=255):string=>
         .replace(/[^\w\d-]/, "")
 
 
-export const HEXToVBColor=(rrggbb)=> {
+export const HEXToVBColor=(rrggbb:string):number=> {
     let v=rrggbb.replace(/#/g,"")
     return parseInt(v.substr(4, 2),16) + parseInt(v.substr(2, 2),16) + parseInt(v.substr(0, 2),16);
 }

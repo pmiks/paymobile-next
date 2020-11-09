@@ -1,6 +1,5 @@
 import {mobileOperatorListInterface} from "./interfaces";
 import React, {FC, useContext} from "react";
-//import s from '../styles/mobileOperatorItem.module.css'
 import styled from 'styled-components'
 import {HEXToVBColor} from "./functions";
 import Context from "./context";
@@ -15,9 +14,10 @@ type TMobileOperator={
 export const MobileOperator:FC<TMobileOperator>=({item,onClick,onDelete,isButton=false})=>{
     let {currLang}=useContext(Context)
     let inverse=HEXToVBColor(item.color)>500
-    return <Item bgColor={item.color} borderColor={inverse?"gray":"white"}
-//                style={{'backgroundColor':`${item.color}`,"whiteSpace": "nowrap","borderColor": `${HEXToVBColor(item.color)>500?"gray":"white"}`}}
-                onClick={onClick}
+    return <Item isButton={isButton}
+                 bgColor={item.color}
+                 borderColor={inverse?"gray":"white"}
+                 onClick={onClick}
             >
             <ItemContent isButton={isButton} fontInverse={inverse}>
                 <div style={{'flex':'1','textAlign':'right'}}><Logo src={item.logo} alt=""/></div>
@@ -29,36 +29,16 @@ export const MobileOperator:FC<TMobileOperator>=({item,onClick,onDelete,isButton
     </Item>
 }
 
-// export const MobileOperator:FC<TMobileOperator>=({item,onClick,onDelete,isButton})=>{
-//     let {currLang}=useContext(Context)
-//     let inverse=HEXToVBColor(item.color)>500
-//     return <div
-//         className={s.mobileOperatorItem}
-//         style={{'backgroundColor':`${item.color}`,"whiteSpace": "nowrap","borderColor": `${HEXToVBColor(item.color)>500?"gray":"white"}`}}
-//         onClick={onClick}
-//     >
-//         <div className={s.content} style={isButton?{}:{"transform":"none"}}>
-//             <img className={s.logo} src={item.logo} alt=""/>
-//             <div className={inverse?s.blackFont:''}>{currLang!="RU"?item.nameInter:item.name}</div>
-//         </div>
-//
-//         {item.userData&&isButton&&<div
-//             onClick={onDelete}
-//             className={s.delButton}>X</div>}
-//     </div>
-// }
-
-
 
 const Logo = styled.img`
   height: 4rem;
   border-radius: 50%;
-  margin-right: 3rem;
+  margin-right: 1;
 `
  const Item = styled.div`
     display: flex;
     position: relative;
-    margin: 1rem 2vw;
+    margin: 2rem 5vw;
     border: 1px white solid;
     padding: 0 5vmax;
     border-radius: 15px;
@@ -72,9 +52,11 @@ const Logo = styled.img`
     overflow: hidden;
     white-space: nowrap;
     cursor:default;
+   
     ${props=>{return `
        background-color:${props.bgColor};
        border-color:${props.borderColor};
+       margin:${props.isButton?"1rem 2vw":"0"};
     `}}
     
 `
@@ -95,9 +77,9 @@ const Logo = styled.img`
     justify-content: center;
     justify-items: center;
 
-&:hover{
-    transform: scale(1.1)
-}
+    &:hover{
+        transform: scale(1.1);
+    }
   `
 
 const ItemContent = styled.div`
@@ -109,5 +91,4 @@ const ItemContent = styled.div`
     justify-items: center;
     ${props=>{return props.fontInverse?`color: black;`:`color: white;`}}
     ${props=>{return props.isButton?`&:hover {transform: scale(1.2);}`:`&:hover {transform: none;}`}}
-       
 `

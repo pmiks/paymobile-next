@@ -1,6 +1,5 @@
 import {Modal} from "./modal";
-//import modalStyle from "../styles/modalConfirmPay.module.css";
-import {CSSProperties, FC, useContext, useEffect, useState} from "react";
+import {FC, useContext, useEffect, useState} from "react";
 import React from 'react';
 import {ChromePicker} from 'react-color'
 import {fieldCheckInterface, mobileOperatorListInterface} from "./interfaces";
@@ -16,11 +15,11 @@ type InputT={
     onChange:(any)=>void
     onBlur?:(any)=>void
     typeName?:string
-//    style?:CSSProperties
 }
 
-const Input=({name,value,onChange,placeholder,typeName="",onBlur=undefined})=>{
-    return <><InputSC
+const Input:FC<InputT>=({name,value,onChange,placeholder,typeName="",onBlur=undefined})=>{
+    return <>
+            <InputSC
                 typeName={typeName}
                 autoComplete={"off"}
                 type={"text"}
@@ -29,8 +28,9 @@ const Input=({name,value,onChange,placeholder,typeName="",onBlur=undefined})=>{
                 value={value.field}
                 onChange={onChange}
                 onBlur={onBlur}
-                placeholder={placeholder}/>
-            <ErrorFieldSC>{(value.error)&&value.error}</ErrorFieldSC>
+                placeholder={placeholder}
+            />
+            <ErrorFieldSC>{(value.error&&value.dirty)&&value.error}</ErrorFieldSC>
     </>
 }
 
@@ -41,11 +41,10 @@ export const AddOperatorModal:FC=()=>{
     let [colorPikerActive,setColorPikerActive]=useState(false)
     let [color,setColor]=useState('#ffffff')
 
-
-    let [name,setName]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
-    let [nameInter,setNameInter]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
-    let [commission,setCommission]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
-    let [logo,setLogo]=useState<fieldCheckInterface>({dirty:false,field:'',error:'0'})
+    let [name,setName]=useState<fieldCheckInterface>({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+    let [nameInter,setNameInter]=useState<fieldCheckInterface>({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+    let [commission,setCommission]=useState<fieldCheckInterface>({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+    let [logo,setLogo]=useState<fieldCheckInterface>({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
     let [formValid,setFormValid]=useState<boolean>(false)
 
     let inverse=HEXToVBColor(color)>500
@@ -55,10 +54,10 @@ export const AddOperatorModal:FC=()=>{
     }
 
     const clearForm=()=>{
-        setName({dirty:false,field:'',error:''})
-        setNameInter({dirty:false,field:'',error:''})
-        setCommission({dirty:false,field:'',error:''})
-        setLogo({dirty:false,field:'',error:''})
+        setName({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+        setNameInter({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+        setCommission({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+        setLogo({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
     }
 
     useEffect(()=>{
@@ -88,7 +87,6 @@ export const AddOperatorModal:FC=()=>{
         setNameInter({...nameInter,field:field,error:err})
     }
 
-
     const handlerCommission=(event)=>{
         let fee=maskPrice(event.target.value)
         fee=fee.length==0?'0':fee
@@ -117,23 +115,22 @@ export const AddOperatorModal:FC=()=>{
        {addModalActive&&
         <Modal active={addModalActive} closeWindow={()=>setAddModalActive(false)} clickOverflowClose={true}>
         <div>
-             {/*<form onSubmit={handleSubmit(onSubmit)}>*/}
              <form>
+
                  <WindowTitleSC>{language.TITLE_ADD_OPERATOR}</WindowTitleSC>
+
                  {/*Поле международное имя оператора*/}
                  <Input  name={"name"}
                          value={name}
                          onChange={handlerName}
                          onBlur={blurHandler}
-                         // ref={register}
                          placeholder={language.FIELD_NAME_OPERATOR}/>
-                 {/*Поле международное имя оператора*/}
 
+                 {/*Поле международное имя оператора*/}
                  <Input name={"nameInter"}
                         value={nameInter}
                         onChange={handlerInterName}
                         onBlur={blurHandler}
-                        // ref={register}
                         placeholder={language.FIELD_INTER_NAME}/>
 
                  {/*Поле комиссии*/}
@@ -141,57 +138,60 @@ export const AddOperatorModal:FC=()=>{
                         value={commission}
                         onChange={handlerCommission}
                         onBlur={blurHandler}
-                        // ref={register}
                         placeholder={language.FIELD_COMMISSION}
                  />
 
                  {/*Поле выбора цвета*/}
                  <ColorSelectAreaSC
                       onClick={()=>setColorPikerActive(true)}
-                      style={{"backgroundColor":`${color}`,"color":`${inverse?"gray":"white"}`}} >
+                      style={{"backgroundColor":`${color}`,"color":`${inverse?"black":"white"}`}} >
                       {language.FIELD_COLOR_CHOICE}
                       <input type="hidden" value={color} name={"color"} id={"color"} />
                  </ColorSelectAreaSC>
 
-
                 {/*Поле URL логотипа*/}
                  <Input typeName={"small"}
                         name={"logo"}
-                        value={logo.field}
+                        value={logo}
                         onChange={handlerLogoURL}
-                        // ref={register}
                         placeholder={language.FIELD_URL_LOGO}
                  />
 
                 {/*Кнопки формы Добавить/Отменить*/}
                 <ButtonBarSC>
-                    <ButtonSC typeName={'ok'} onClick={onSubmit}>{language.BTN_ADD}</ButtonSC>
+                    <ButtonSC typeName={'ok'} disabled={formValid ? false : true} onClick={onSubmit}>{language.BTN_ADD}</ButtonSC>
                     <ButtonSC typeName={'cancel'} onClick={()=>{setAddModalActive(false)}}>{language.BTN_CANCEL}</ButtonSC>
                 </ButtonBarSC>
              </form>
         </div>
 
-        {/*Окно выбора цвета*/}
+            {/*Окно выбора цвета*/}
             <Modal active={colorPikerActive}
                    closeWindow={()=>setColorPikerActive(false)}
                    clickOverflowClose={false}>
                 <ChromePicker color={color}onChange={updatedColor => setColor(updatedColor.hex)}/>
-                <ButtonSC style={{"marginTop":"5px","backgroundColor":`${color}`,"color":`${inverse?"black":"white"}`,"borderColor":`${inverse?"black":"white"}`}}
-                          onClick={()=>setColorPikerActive(false)}>
+                <ButtonBarSC>
+                <ButtonSC style={{"backgroundColor":`${color}`,"color":`${inverse?"black":"white"}`,"borderColor":`${inverse?"black":"white"}`}}
+                    onClick={()=>setColorPikerActive(false)}>
                     {language.BTN_PICK}
                 </ButtonSC>
+                </ButtonBarSC>
             </Modal>
-
     </Modal>}
     </>
 }
 
 export const ColorSelectAreaSC = styled.div`
     display:flex;
+    flex:1;
     border: black 1px solid;
-    font-size: 4rem;
+    padding:1rem;
+    font-size: 3rem;
+    font-weight:normal;
     border-radius 5px;
-    margin: 1rem 0;
+    margin: 2rem 0;
     justify-content: center;
-    align-content: center;    
+    justify-self: center;
+    justify-item: center;  
+    cursor:default; 
 `

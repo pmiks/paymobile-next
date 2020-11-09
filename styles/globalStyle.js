@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const ButtonSC = styled.button`
+    flex:1;
     font-size: 2rem;
     border-radius: 5px;
     color: white;
@@ -10,7 +11,7 @@ export const ButtonSC = styled.button`
     font-weight: bold;
     justify-self: stretch;
     box-sizing: border-box;
-    width: 100%; 
+    margin:2vmin;    
     
     &:hover{
         transform: scale(1.1);
@@ -45,11 +46,18 @@ export const InputSC = styled.input`
   font-size: 3rem;
   margin: 0.5rem 0;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 0px;
+  border-width:0;
+  border-bottom:2px solid black;
   box-sizing: border-box;
   width:100%; 
-    &:disabled{
-
+  text-align:center;
+    &:default{
+      border-width:0;
+    }
+    &:focus{
+      border-width:0;
+      border-bottom:4px solid black;
     }
    ${props=>{
     switch (props.typeName) {
@@ -71,16 +79,21 @@ export const WindowTitleSC = styled.h1`
  `
 
 export const ErrorFieldSC = styled.div`
-  font-size: 1rem;
-  height: 1rem;
+  font-size: 2rem;
+  height: 2rem;
+  text-align:center;
   margin: 1rem 2rem;
   color:red;
+  &:empty {
+    color:transparent;
+  }
+  &:before{content:'* '}
  `
 
 export const FieldNameSC = styled.h1`
     background-color: inherit;
     padding: 0px;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight:bold;
     text-align:left;
      ${props=>{return `text-align:${props.textAlign};`}}

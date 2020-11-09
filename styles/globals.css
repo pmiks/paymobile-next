@@ -18,82 +18,6 @@ a {
   /*box-sizing: border-box;*/
 }
 
-div{
-  /*white-space: nowrap;*/
-}
-
-/*button{*/
-/*  font-size: 2rem;*/
-/*  border-radius: 5px;*/
-/*  color: white;*/
-/*  border: white 1px solid;*/
-/*  padding: 10px;*/
-/*  justify-self: center;*/
-/*  font-weight: bold;*/
-/*}*/
-
-/*button:hover{*/
-/*  transform: scale(1.1);*/
-/*}*/
-
-/*button:disabled{*/
-/*  background-color: gray;*/
-/*  color: lightgray;*/
-/*}*/
-
-/*button.ok{*/
-/*  background-color: forestgreen;*/
-/*}*/
-
-/*button.cancel{*/
-/*  color: black;*/
-/*  background-color:white;*/
-/*  border: dimgray 2px solid;*/
-/*}*/
-
-/*button.error{*/
-/*  color: black;*/
-/*  background-color:red;*/
-/*  border: dimgray 2px solid;*/
-/*}*/
-
-
-/*button.tool{*/
-/*  background-color:gray;*/
-/*  background-color: darkgray;*/
-/*}*/
-
-/*input{*/
-/*  font-size: 2.5em;*/
-/*  margin: 1vmax;*/
-/*  padding: 5px;*/
-/*  border-radius: 5px;*/
-/*  flex-basis: auto;*/
-/*}*/
-
-/*div.title{*/
-/*  font-size: 2.2rem;*/
-/*  font-weight: bold;*/
-/*  text-align: center;*/
-/*}*/
-
-/*div.ErrorText{*/
-/*  color: red;*/
-/*  padding: 0px 2rem;*/
-/*  flex-basis: fit-content;*/
-/*}*/
-
-/*.colorSelect{*/
-/*  display: grid;*/
-/*  border: black 1px solid;*/
-/*  right: 0;*/
-/*  left: 0;*/
-/*  height: 3vmax;*/
-/*  !*width: 18vmax;*!*/
-/*  justify-content: center;*/
-/*  align-content: center;*/
-/*  margin: 1vw;*/
-/*}*/
 
 .modalWindow{
   bottom: 0;
@@ -131,19 +55,18 @@ div{
   border-radius: 12px;
   background-color: white;
   border: gray 1px solid;
-  max-width: 40vw;
   transform: scale(0);
-  transition: 1s;
+  transition: 0.7s;
 }
 
 .modalWindowContextActive{
-  padding: 1vh;
+  padding: 2vh;
   border-radius: 12px;
   background-color: white;
   border: gray 1px solid;
-  max-width: 40vw;
+  max-width: 60vw;
   transform: scale(1);
-  transition: 0.5s;
+  transition: 0.7s;
 }
 
 

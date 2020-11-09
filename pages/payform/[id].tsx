@@ -1,7 +1,6 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-//import s from '../../styles/payform.module.css'
-import {FieldName, useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import {serverAnswers} from "../../components/init";
 import AppForm from "../../components/appform";
 import {ConfirmPayModal} from "../../components/modalConfirmPay";
@@ -12,21 +11,22 @@ import {
     payDataInterface,
     serverAnswerInterface
 } from "../../components/interfaces";
-import ErrorPage from 'next/error'
 import {maskPhone, maskPrice} from "../../components/functions";
 import {getIdTransaction, getServerData} from "../../api/serverRequest";
 import {MobileOperator} from "../../components/mobileOperatorItem";
 import Context from "../../components/context";
 import {ButtonSC, ErrorFieldSC, InputSC, WindowTitleSC,FieldNameSC} from "../../styles/globalStyle";
 import styled from 'styled-components'
+import PageNotFound from "../404";
+import Head from "next/head";
 
 export default function PayForm (){
-    const {language,mobileOperatorList}=useContext(Context)
+    const {language,mobileOperatorList,currLang}=useContext(Context)
     const {register,handleSubmit}=useForm()
     const router=useRouter()
 
-    let [phoneField,setPhoneField]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
-    let [amountPayField,setAmountPayField]=useState<fieldCheckInterface>({dirty:false,field:'',error:''})
+    let [phoneField,setPhoneField]=useState<fieldCheckInterface>({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
+    let [amountPayField,setAmountPayField]=useState<fieldCheckInterface>({dirty:false,field:'',error:language.ERR_FIELD_EMPTY_FIELD})
     let [formValid,setFormValid]=useState<boolean>(false)
 
 
@@ -57,8 +57,9 @@ export default function PayForm (){
     const amountPayHandler=(e)=>{
         let v=maskPrice(e.target.value)
         if (Number(e.target.value)<1||Number(e.target.value)>1000)
-            setAmountPayField({...amountPayField,field:v,error:language.ERR_FIELD_AMOUNT_PAY_INCORRECT})
-        else setAmountPayField({...amountPayField,field:v,error:''})
+            setAmountPayField({...amountPayField,field:v,error:language.ERR_FIELD_AMOUNT_PAY_INCORRECT,dirty:true})
+        else
+            setAmountPayField({...amountPayField,field:v,error:'',dirty:true})
     }
 
     const blurHandler=(event)=>{
@@ -67,18 +68,18 @@ export default function PayForm (){
             case 'phoneNumber':
                 setPhoneField({...phoneField, dirty: true,error:err?language.ERR_FIELD_EMPTY_FIELD:phoneField.error})
                 break
-            case 'amountPay': setAmountPayField({...amountPayField, dirty: true,error:err?language.ERR_FIELD_EMPTY_FIELD:amountPayField.error})
+            case 'amountPay':
+                setAmountPayField({...amountPayField, dirty: true,error:err?language.ERR_FIELD_EMPTY_FIELD:amountPayField.error})
         }
     }
 
     const handlerSubmitPay=()=>{
         setModalPaymentProcess(true)
         setModalConfirmationPayment(false)
-        getServerData('https://anyserver:4200/sendpay').then((response) => {
+        getServerData(`https://anyserver:4200/api/${currLang.toLowerCase()}/sendpay`).then((response) => {
             setServerAnswer(response)
             setPaymentDone(true)
             setModalPaymentProcess(false)
-            console.log('Платеж обработан')
         })
     }
 
@@ -96,15 +97,25 @@ export default function PayForm (){
     let idMobileOperator=Number(router.query.id)
     idMobileOperator=isNaN(idMobileOperator)?-1:Number(router.query.id)
 
-        return <>
-        {idMobileOperator < 0||idMobileOperator > mobileOperatorList.length?<ErrorPage statusCode={404}/>:
+    return <>
+        {
+            idMobileOperator < 0||idMobileOperator > mobileOperatorList.length?<PageNotFound/>
+            :
         <>
+        <Head>
+            <title>
+                {currLang!="RU"?mobileOperatorList[idMobileOperator].nameInter:mobileOperatorList[idMobileOperator].name}
+                | {language.TITLE_APP}
+            </title>
+        </Head>
         <AppForm>
             <PaymentForm>
                 <form onSubmit={handleSubmit(onSubmit)}>
+
                     <MobileOperator item={mobileOperatorList[idMobileOperator]} onDelete={()=>{}} onClick={()=>{}}/>
-                    {/*<div className={s.payFormTitle}>Оплата мобильной связи {mobileOperatorList[idMobileOperator].name}</div>*/}
+
                     <WindowTitleSC/>
+
                     <FieldNameSC>{language.FIELD_PHONE_NUMBER} </FieldNameSC>
                     <InputSC
                         type="tel"
@@ -119,7 +130,7 @@ export default function PayForm (){
                         ref={register}
                     />
                     <ErrorFieldSC>{(phoneField.dirty&&phoneField.error)&&phoneField.error}</ErrorFieldSC>
-                    {/*{(phoneValid && phoneError) && <div className={s.textError}>{phoneError}</div>}*/}
+
                     <FieldNameSC>{language.FIELD_AMOUNT_PAY}</FieldNameSC>
                     <InputSC
                         type={"text"}
@@ -135,11 +146,9 @@ export default function PayForm (){
                     />
                     <ErrorFieldSC>{(amountPayField.dirty && amountPayField.error) && amountPayField.error}</ErrorFieldSC>
 
-                    <div>
                         <ButtonSC typeName={"ok"} disabled={formValid ? false : true}>
                             {language.BTN_PAY}
                         </ButtonSC>
-                    </div>
                 </form>
             </PaymentForm>
         </AppForm>
@@ -152,9 +161,14 @@ export default function PayForm (){
                 onConfirm={handlerSubmitPay}
                 onCancel={() => setModalConfirmationPayment(false)}
                 />
+        {/*Модальное окно обработки платежа*/}
             <ServerRequestModal active={modalPaymentProcess}/>
-            <ServerRequestModalDone result={serverAnswer} active={paymentDone} closeWindow={() => setPaymentDone(false)}
-                                    onDone={() => { router.push('/')}}/>
+        {/*Модальное окно ответасервера*/}
+            <ServerRequestModalDone
+                result={serverAnswer}
+                active={paymentDone}
+                closeWindow={() => setPaymentDone(false)}
+                onDone={() => { router.push('/')}}/>
         </>
      }
      </>
